@@ -23,10 +23,19 @@
 <?php
 if (isset($_POST['join'])){
     require_once "./db/users.php";
-    $join = new users();
+    $join = new users;
+
     $join->setEmail($_POST['email']);
-    $join->setName($_POST['name']);
-    $join->setPass($_POST['pass']);
+    $join->setName($_POST['name']);	
+    $join->setPass(123);
+	$join->setLoginStatus(1);
+	$join->setLastLogin(time());
+    $data = $join->getUserEmail();
+    if(isset($data) and count($data)){
+        
+    }
+
+
     if ($join->save()){
         echo "saved";
     }else{
@@ -41,11 +50,11 @@ if (isset($_POST['join'])){
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">
 			<div class="card-header">
-				<h3>Sign In</h3>
+				<h3>Regstration</h3>
 		
 			</div>
 			<div class="card-body">
-				<form method="post">
+				<form method="POST">
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -58,12 +67,7 @@ if (isset($_POST['join'])){
 						</div>
 						<input type="email" name="email" class="form-control" placeholder="Email">
 					</div>
-					<div class="input-group form-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fas fa-key"></i></span>
-						</div>
-						<input type="password"  name="pass" class="form-control" placeholder="password">
-					</div>
+					
 					<div class="form-group">
 						<input type="submit" name="join" value="Login" class="btn-block btn float-right login_btn">
 					</div>

@@ -18,14 +18,16 @@ class users {
     }
 
     public function save(){
-        $sql = "INSERT INTO `users`(`id`, `name`, `email`, `password`, `login_status`, `last_login`) VALUES (null,:name,:email,:pass,:loginSatatus,:lastLogin)";
+        $sql = "INSERT INTO `users`(`id`, `name`, `email`, `password`, `login_status`, `created_at`) VALUES (null, :name, :email, :pass, :loginstatus, :lastlogin)";
+
         $stmt = $this->dbConnect->prepare($sql);
         $stmt->bindParam(":name",$this->name);
         $stmt->bindParam(":email",$this->email);
         $stmt->bindParam(":pass",$this->pass);
-        $stmt->bindParam(":loginStatus",$this->loginStatus);
-        $stmt->bindParam(":lastLogin",$this->lastLogin);
-
+        $stmt->bindParam(":loginstatus",$this->loginStatus);
+        $stmt->bindParam(":lastlogin",$this->lastLogin);
+        
+        
         try {
             if ($stmt->execute()){
                 return true;
@@ -38,10 +40,26 @@ class users {
 
     }
 
+    public function getUserEmail(){
+        $sql = "SELECT * FROM `users` WHERE email=:email";
+        $stmt = $this->dbConnect->prepare($sql);
+        $stmt->bindParam(":email",$this->email);
+  
+        try {
+            if ($stmt->execute()){
+                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            }
+        }catch (Exception $e){
+            echo "getUserEmailda xatolik: ".$e->getMessage();
+        }
+        return $user;
+
+    }
+
     /**
      * @return mixed
      */
-    public function getId()
+    function getId()
     {
         return $this->id;
     }
@@ -49,7 +67,7 @@ class users {
     /**
      * @param mixed $id
      */
-    public function setId($id)
+    function setId($id)
     {
         $this->id = $id;
     }
@@ -57,7 +75,7 @@ class users {
     /**
      * @return mixed
      */
-    public function getName()
+    function getName()
     {
         return $this->name;
     }
@@ -65,7 +83,7 @@ class users {
     /**
      * @param mixed $name
      */
-    public function setName($name)
+    function setName($name)
     {
         $this->name = $name;
     }
@@ -73,7 +91,7 @@ class users {
     /**
      * @return mixed
      */
-    public function getEmail()
+    function getEmail()
     {
         return $this->email;
     }
@@ -81,7 +99,7 @@ class users {
     /**
      * @param mixed $email
      */
-    public function setEmail($email)
+    function setEmail($email)
     {
         $this->email = $email;
     }
@@ -89,7 +107,7 @@ class users {
     /**
      * @return mixed
      */
-    public function getPass()
+    function getPass()
     {
         return $this->pass;
     }
@@ -97,7 +115,7 @@ class users {
     /**
      * @param mixed $pass
      */
-    public function setPass($pass)
+    function setPass($pass)
     {
         $this->pass = $pass;
     }
@@ -105,7 +123,7 @@ class users {
     /**
      * @return mixed
      */
-    public function getLoginStatus()
+    function getLoginStatus()
     {
         return $this->loginStatus;
     }
@@ -113,7 +131,7 @@ class users {
     /**
      * @param mixed $loginStatus
      */
-    public function setLoginStatus($loginStatus)
+    function setLoginStatus($loginStatus)
     {
         $this->loginStatus = $loginStatus;
     }
@@ -121,7 +139,7 @@ class users {
     /**
      * @return mixed
      */
-    public function getLastLogin()
+    function getLastLogin()
     {
         return $this->lastLogin;
     }
@@ -129,7 +147,7 @@ class users {
     /**
      * @param mixed $lastLogin
      */
-    public function setLastLogin($lastLogin)
+    function setLastLogin($lastLogin)
     {
         $this->lastLogin = $lastLogin;
     }
