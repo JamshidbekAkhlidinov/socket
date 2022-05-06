@@ -19,7 +19,7 @@
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
-
+<h2 style="color:aliceblue;">
 <?php
 if (isset($_POST['join'])){
     require_once "./db/users.php";
@@ -31,21 +31,28 @@ if (isset($_POST['join'])){
 	$join->setLoginStatus(1);
 	$join->setLastLogin(time());
     $data = $join->getUserEmail();
-    if(isset($data) and count($data)){
-        
-    }
-
-
-    if ($join->save()){
-        echo "saved";
+    if(is_array($data) and count($data)){
+        $join->setId($data['id']);
+        if($join->updatedloginStatus()){
+            echo "userLogin";
+        }else{
+            echo "field to login";
+        }
     }else{
-        echo "no saved";
+        if ($join->save()){
+            echo "saved";
+        }else{
+            echo "no saved";
+        }
     }
+
+
+  
 }
 
 
 ?>
-
+</h2>
 <div class="container">
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">

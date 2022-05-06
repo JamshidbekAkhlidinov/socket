@@ -56,6 +56,26 @@ class users {
 
     }
 
+    public function updatedloginStatus(){
+        $sql = "UPDATE `users` SET `login_status`=:loginstatus, `created_at`=:lastlogin WHERE id=:id";
+        $stmt = $this->dbConnect->prepare($sql);
+        $stmt->bindParam(":id",$this->id);
+        $stmt->bindParam(":loginstatus",$this->loginStatus);
+        $stmt->bindParam(":lastlogin",$this->lastLogin);
+  
+        try {
+            if ($stmt->execute()){
+                return true;
+            }else{
+                return  false;
+            }
+        }catch (Exception $e){
+            echo "updatedloginStatusda xatolik: ".$e->getMessage();
+        }
+
+
+    }
+
     /**
      * @return mixed
      */
