@@ -19,6 +19,24 @@
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
+
+<?php
+if (isset($_POST['join'])){
+    require_once "./db/users.php";
+    $join = new users();
+    $join->setEmail($_POST['email']);
+    $join->setName($_POST['name']);
+    $join->setPass($_POST['pass']);
+    if ($join->save()){
+        echo "saved";
+    }else{
+        echo "no saved";
+    }
+}
+
+
+?>
+
 <div class="container">
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">
@@ -27,27 +45,27 @@
 		
 			</div>
 			<div class="card-body">
-				<form>
+				<form method="post">
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-user"></i></span>
 						</div>
-						<input type="text" class="form-control" placeholder="username">
+						<input type="text" name="name" class="form-control" placeholder="name">
 					</div>
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-user"></i></span>
 						</div>
-						<input type="email" class="form-control" placeholder="Email">
+						<input type="email" name="email" class="form-control" placeholder="Email">
 					</div>
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-key"></i></span>
 						</div>
-						<input type="password" class="form-control" placeholder="password">
+						<input type="password"  name="pass" class="form-control" placeholder="password">
 					</div>
 					<div class="form-group">
-						<input type="submit" value="Login" class="btn-block btn float-right login_btn">
+						<input type="submit" name="join" value="Login" class="btn-block btn float-right login_btn">
 					</div>
 				</form>
 			</div>
