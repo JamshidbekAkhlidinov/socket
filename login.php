@@ -1,7 +1,10 @@
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
+<?php
+session_start();
+echo "<pre style='color:white;'>";
+print_r($_SESSION['user']);
+echo "</pre>";
+// session_unset();
+?>
 
 <!DOCTYPE html>
 <html>
@@ -21,7 +24,8 @@
 <body>
 <h2 style="color:aliceblue;">
 <?php
-if (isset($_POST['join'])){
+if (isset($_POST['join']) and isset($_POST['name']) and isset($_POST['pass'])){
+    // session_start();
     require_once "./db/users.php";
     $join = new users;
 
@@ -31,15 +35,21 @@ if (isset($_POST['join'])){
 	$join->setLoginStatus(1);
 	$join->setLastLogin(time());
     $data = $join->getUserEmail();
-    if(is_array($data) and count($data)){
+
+    if(is_array($data) and count($data)>0){
         $join->setId($data['id']);
         if($join->updatedloginStatus()){
             echo "userLogin";
+            $_SESSION['user'][$data['id']] = $data;
+            include_once "./chatroom.php";
         }else{
             echo "field to login";
         }
     }else{
         if ($join->save()){
+            // $join->setId($lastid);
+            $_SESSION['user'][$data['id']] = $join->getUserEmail();
+			include_once "./chatroom.php";
             echo "saved";
         }else{
             echo "no saved";
@@ -61,7 +71,7 @@ if (isset($_POST['join'])){
 		
 			</div>
 			<div class="card-body">
-				<form method="POST">
+				<form method="POST" action="login.php">
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-user"></i></span>
