@@ -76,27 +76,12 @@ class users {
 
     }
 
-    public function lastsave(){
-        $sql = "INSERT INTO `users`(`id`, `name`, `email`, `password`, `login_status`, `created_at`) VALUES (null, :name, :email, :pass, :loginstatus, :lastlogin)";
-
+    public function getAllUsers(){
+        $sql = "SELECT * FROM `users`";
         $stmt = $this->dbConnect->prepare($sql);
-        $stmt->bindParam(":name",$this->name);
-        $stmt->bindParam(":email",$this->email);
-        $stmt->bindParam(":pass",$this->pass);
-        $stmt->bindParam(":loginstatus",$this->loginStatus);
-        $stmt->bindParam(":lastlogin",$this->lastLogin);
-        
-        
-        try {
-            if ($stmt->execute()){
-                return true;
-            }else{
-                return  false;
-            }
-        }catch (Exception $e){
-            echo "Usesga ulamishda xatolik: ".$e->getMessage();
-        }
-
+        $stmt->execute();
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $users;
     }
 
     /**
