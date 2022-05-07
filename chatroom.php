@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +10,11 @@
     <title>Document</title>
 </head>
 <body>
-    <h3 style="color:whitesmoke;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam, sint eum quod, nam corporis dolorem voluptates velit et libero veritatis facere vel deleniti iste cupiditate ipsum. Quas eius magnam expedita.</h3>
+    <h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam, sint eum quod, nam corporis dolorem voluptates velit et libero veritatis facere vel deleniti iste cupiditate ipsum. Quas eius magnam expedita.</h3>
+    <pre>
+<?php
+print_r($_SESSION);
+        ?>
+    </pre>
 </body>
 </html>

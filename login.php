@@ -1,9 +1,7 @@
 <?php
 session_start();
-echo "<pre style='color:white;'>";
-print_r($_SESSION['user']);
-echo "</pre>";
-// session_unset();
+ob_start();
+
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +22,7 @@ echo "</pre>";
 <body>
 <h2 style="color:aliceblue;">
 <?php
-if (isset($_POST['join']) and isset($_POST['name']) and isset($_POST['pass'])){
+if (isset($_POST['join']) and isset($_POST['name']) and strlen($_POST['name'])>5 and  strlen($_POST['email'])>5 and isset($_POST['email'])){
     // session_start();
     require_once "./db/users.php";
     $join = new users;
@@ -41,15 +39,18 @@ if (isset($_POST['join']) and isset($_POST['name']) and isset($_POST['pass'])){
         if($join->updatedloginStatus()){
             echo "userLogin";
             $_SESSION['user'][$data['id']] = $data;
-            include_once "./chatroom.php";
+            // include_once "./chatroom.php";
+			header("location: chatroom.php");
+
         }else{
             echo "field to login";
         }
     }else{
         if ($join->save()){
             // $join->setId($lastid);
-            $_SESSION['user'][$data['id']] = $join->getUserEmail();
-			include_once "./chatroom.php";
+            $_SESSION['user'][$data['id']] = $data;
+			// include_once "./chatroom.php";
+			header("location: chatroom.php");
             echo "saved";
         }else{
             echo "no saved";
