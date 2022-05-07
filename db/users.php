@@ -40,6 +40,21 @@ class users {
 
     }
 
+    public function getUserbyId(){
+        $sql = "SELECT * FROM `users` WHERE id=:id";
+        $stmt = $this->dbConnect->prepare($sql);
+        $stmt->bindParam(":id",$this->id);
+  
+        try {
+            if ($stmt->execute()){
+                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            }
+        }catch (Exception $e){
+            echo "getUserbyId xatolik: ".$e->getMessage();
+        }
+        return $user;
+
+    }
     public function getUserEmail(){
         $sql = "SELECT * FROM `users` WHERE email=:email";
         $stmt = $this->dbConnect->prepare($sql);

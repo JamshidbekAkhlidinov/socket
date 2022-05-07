@@ -97,6 +97,12 @@ if(isset($_SESSION['user'])){
 
         conn.onmessage = function(e) {
             console.log(e.data);
+            
+            var data = JSON.parse(e.data);
+            var row = '<tr><td valign="top"><div><b>'+data.from+'</b></div><div>'+data.msg+'</div></td><td valign="top" align="right">'+data.dt+'</td></tr>';
+
+            $("#chats > tbody").append(row);
+
         };
 
 
