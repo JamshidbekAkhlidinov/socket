@@ -13,6 +13,15 @@ body {
     font-family: 'Numans', sans-serif;
 }
 
+.table-earnings {
+    background: #F3F5F6;
+  }
+  table {
+    display: block;
+    height: 200px;
+    overflow-y: auto;
+  }
+
 .container {
     height: 100%;
     align-content: center;
@@ -89,3 +98,4 @@ input:focus {
 .links a {
     margin-left: 4px;
 }
+

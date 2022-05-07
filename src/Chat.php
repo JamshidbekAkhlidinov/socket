@@ -1,5 +1,7 @@
 <?php
 namespace MyApp;
+
+use DateTime;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use users;
@@ -28,12 +30,12 @@ class Chat implements MessageComponentInterface {
         
         $chatrooms = new \ChatRooms();
         $data = json_decode($msg,true);
-        $chatrooms->getCreatedAt(1223);
-        $chatrooms->getUserId($data['userId']);
-        $chatrooms->getMsg($data['msg']);
+        $chatrooms->setCreatedAt(date('H:i:s d-m-Y'));
+        $chatrooms->setUserId($data['userId']);
+        $chatrooms->setMsg($data['msg']);
         if($chatrooms->saveChatRoom()) {
             $objuser = new users();
-            $data['dt'] = time();
+            $data['dt'] = date('H:i:s d-m Y');
             $objuser->setId($data['userId']);
             $user = $objuser->getUserbyId();
             $data['from'] = $user['name'];
@@ -42,11 +44,13 @@ class Chat implements MessageComponentInterface {
         
 
         foreach ($this->clients as $client) {
-            // if ($from !== $client) {
-                // The sender is not the receiver, send to each client connected
-                // $client->send($msg);
-                $client->send(json_encode($data));
-            // }
+            if ($from == $client) {
+                $data['from'] = "Me";
+            }else{
+                $data['from'] = $user['name'];
+            }
+            $client->send(json_encode($data));
+
         }
     }
 

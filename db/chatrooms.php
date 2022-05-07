@@ -84,7 +84,7 @@ class ChatRooms {
 
 
    public function saveChatRoom(){
-        $sql = "INSERT INTO `chatrooms`(`id`, `user_id`, `msg`, `created_at`) VALUES (null, :user_id, :msg, :craeted_at)";
+        $sql = "INSERT INTO `chatrooms`(`id`, `user_id`, `msg`, `created_at`) VALUES (null, :user_id, :msg, :created_at)";
         $stmt = $this->dbCon->prepare($sql);
        $stmt->bindParam(':user_id',$this->userId);
        $stmt->bindParam(':msg',$this->msg);
@@ -93,11 +93,17 @@ class ChatRooms {
        if($stmt->execute()){
            return true;
        }else{
-           print_r($stmt->errorInfo());
            return false;
        }
    }
 
+   public function getAllMessage(){
+        $sql = "SELECT c.*, u.name FROM `chatrooms` c JOIN users u ON(c.user_id = u.id) ORDER BY `c`.`created_at` DESC";
+        $stmt = $this->dbCon->prepare($sql);
+        $stmt->execute();
+        $message = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $message;
+    }
 
 
 
