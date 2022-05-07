@@ -5,12 +5,13 @@ use Ratchet\ConnectionInterface;
 use users;
 
 include_once "../db/users.php";
+include_once "../db/chatrooms.php";
 class Chat implements MessageComponentInterface {
     protected $clients;
 
     public function __construct() {
         $this->clients = new \SplObjectStorage;
-        echo "server ishga tushdi";
+        echo "server ishga tushdi\n\n";
     }
 
     public function onOpen(ConnectionInterface $conn) {
@@ -25,14 +26,19 @@ class Chat implements MessageComponentInterface {
         echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
             , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
         
+        $chatrooms = new \ChatRooms();
         $data = json_decode($msg,true);
-        $objuser = new users;
-        $objuser->setId($data['userId']);
-        $user = $objuser->getUserbyId();
-        $data['from'] = $user['name'];
-        $data['msg'] = $data['msg'];
-        $data['dt'] = date('H:i:s d-M Y');
-
+        $chatrooms->getCreatedAt(1223);
+        $chatrooms->getUserId($data['userId']);
+        $chatrooms->getMsg($data['msg']);
+        if($chatrooms->saveChatRoom()) {
+            $objuser = new users();
+            $data['dt'] = time();
+            $objuser->setId($data['userId']);
+            $user = $objuser->getUserbyId();
+            $data['from'] = $user['name'];
+            $data['msg'] = $data['msg'];
+        }
         
 
         foreach ($this->clients as $client) {

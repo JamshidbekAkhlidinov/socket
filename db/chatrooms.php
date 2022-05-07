@@ -1,6 +1,6 @@
 <?php
 
-class chatroomes {
+class ChatRooms {
     private $id;
     private $userId;
     private $msg;
@@ -10,7 +10,7 @@ class chatroomes {
     /**
      * @return mixed
      */
-    public function getId()
+    function getId()
     {
         return $this->id;
     }
@@ -18,7 +18,7 @@ class chatroomes {
     /**
      * @param mixed $id
      */
-    public function setId($id)
+    function setId($id)
     {
         $this->id = $id;
     }
@@ -26,7 +26,7 @@ class chatroomes {
     /**
      * @return mixed
      */
-    public function getUserId()
+    function getUserId()
     {
         return $this->userId;
     }
@@ -34,7 +34,7 @@ class chatroomes {
     /**
      * @param mixed $userId
      */
-    public function setUserId($userId)
+    function setUserId($userId)
     {
         $this->userId = $userId;
     }
@@ -42,7 +42,7 @@ class chatroomes {
     /**
      * @return mixed
      */
-    public function getMsg()
+    function getMsg()
     {
         return $this->msg;
     }
@@ -50,7 +50,7 @@ class chatroomes {
     /**
      * @param mixed $msg
      */
-    public function setMsg($msg)
+    function setMsg($msg)
     {
         $this->msg = $msg;
     }
@@ -58,7 +58,7 @@ class chatroomes {
     /**
      * @return mixed
      */
-    public function getCreatedAt()
+    function getCreatedAt()
     {
         return $this->created_at;
     }
@@ -66,7 +66,7 @@ class chatroomes {
     /**
      * @param mixed $created_at
      */
-    public function setCreatedAt($created_at)
+    function setCreatedAt($created_at)
     {
         $this->created_at = $created_at;
     }
@@ -93,6 +93,7 @@ class chatroomes {
        if($stmt->execute()){
            return true;
        }else{
+           print_r($stmt->errorInfo());
            return false;
        }
    }
